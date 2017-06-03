@@ -185,6 +185,15 @@ var app = app || {};
         });
     });
 
+    // $('#server [data-server-template-id]').on('click', function () {
+    //     var server_template_id = $(this).data('server-template-id');
+    //     var server_template = app.ServerTemplates.get(server_template_id);
+    //     $('#server_name').val(server_template.get('name'));
+    //     $('#server_address').val(server_template.get('ip_address'));
+    //     $('#server_port').val(server_template.get('port'));
+    //     $('.nav-tabs a[href="#server_details"]').tab('show');
+    // });
+
     app.Server = Backbone.Model.extend({
         urlRoot: '/servers'
     });
@@ -281,24 +290,31 @@ var app = app || {};
         render: function () {
             var data = this.model.toJSON();
 
-            data.status_css = 'primary';
-            data.icon_css   = 'question';
-            data.status     = Lang.get('servers.untested');
-            data.has_log    = false;
+            data.status_css  = 'primary';
+            data.icon_css    = 'question';
+            data.status      = Lang.get('servers.untested');
+            data.has_log     = false;
+            data.deploy_code = data.pivot.deploy_code;
+            data.connect_log = data.pivot.connect_log;
+            data.order       = data.pivot.order;
+            data.type       = Lang.get('servers.project');
+            if (this.model.get('type') === 'shared') {
+                data.type = Lang.get('servers.shared');
+            }
 
-            if (parseInt(this.model.get('status')) === SUCCESSFUL) {
+            if (parseInt(this.model.get('pivot').status) === SUCCESSFUL) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
                 data.status     = Lang.get('servers.successful');
-            } else if (parseInt(this.model.get('status')) === TESTING) {
+            } else if (parseInt(this.model.get('pivot').status) === TESTING) {
                 data.status_css = 'warning';
                 data.icon_css   = 'spinner fa-pulse';
                 data.status     = Lang.get('servers.testing');
-            } else if (parseInt(this.model.get('status')) === FAILED) {
+            } else if (parseInt(this.model.get('pivot').status) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('servers.failed');
-                data.has_log    = data.connect_log ? true : false;
+                data.has_log    = data.pivot.connect_log ? true : false;
             }
 
             this.$el.html(this.template(data));
@@ -311,8 +327,16 @@ var app = app || {};
             $('#server_name').val(this.model.get('name'));
             $('#server_address').val(this.model.get('ip_address'));
             $('#server_port').val(this.model.get('port'));
-            $('#server_user').val(this.model.get('user'));
-            $('#server_path').val(this.model.get('path'));
+
+            if (this.model.get('type') === 'shared') {
+              $('#server_user').val(this.model.get('pivot').user);
+              $('#server_path').val(this.model.get('pivot').path);
+
+              $('server_user').attr('placeholder', this.model.get('user'));
+            } else {
+              $('#server_user').val(this.model.get('user'));
+              $('#server_path').val(this.model.get('path'));
+            }
 
             $('#server_deploy_code').prop('checked', (this.model.get('deploy_code') === true));
         },
@@ -324,7 +348,7 @@ var app = app || {};
             modal.find('.modal-title span').text(title);
         },
         testConnection: function() {
-            if (parseInt(this.model.get('status')) === TESTING) {
+            if (parseInt(this.model.get('pivot').status) === TESTING) {
                 return;
             }
 
