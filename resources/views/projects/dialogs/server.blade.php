@@ -6,8 +6,8 @@
                 <h4 class="modal-title"><i class="fa fa-tasks"></i> <span>{{ trans('servers.create') }}</span></h4>
             </div>
             <form role="form">
-                <input type="hidden" id="server_id" name="id"/>
-                <input type="hidden" name="project_id" value="{{ $project->id }}"/>
+                <input type="hidden" id="server_id" name="id" />
+                <input type="hidden" name="project_id" value="{{ $project->id }}" />
                 <input type="hidden" id="shared_server_id" name="shared_server_id" />
                 <div class="modal-body">
                     <div class="callout callout-danger">
