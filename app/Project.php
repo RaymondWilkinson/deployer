@@ -366,11 +366,11 @@ class Project extends Model implements HasPresenter
     /**
      * Has many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function servers()
     {
-        return $this->hasMany(Server::class)
+        return $this->belongsToMany(Server::class)
                     ->orderBy('order', 'ASC');
     }
 

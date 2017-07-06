@@ -18,13 +18,15 @@ class Server extends Model
     const FAILED     = 2;
     const TESTING    = 3;
 
+    const TYPE_UNIQUE = 'unique';
+    const TYPE_SHARED = 'shared';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'ip_address', 'project_id', 'path',
-                           'status', 'deploy_code', 'port', 'order', ];
+    protected $fillable = ['name', 'user', 'ip_address', 'port', 'path'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -41,20 +43,17 @@ class Server extends Model
     protected $casts = [
         'id'                 => 'integer',
         'project_id'         => 'integer',
-        'server_template_id' => 'integer',
-        'status'             => 'integer',
-        'deploy_code'        => 'boolean',
         'port'               => 'integer',
     ];
 
     /**
      * Belongs to relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsToMany(Project::class);
     }
 
     /**
@@ -139,11 +138,11 @@ class Server extends Model
      */
     private function setAttributeStatusUntested($attribute, $value)
     {
-        if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
-            $this->attributes['status']      = self::UNTESTED;
-            $this->attributes['connect_log'] = null;
-        }
-
+//        if (!array_key_exists($attribute, $this->attributes) || $value !== $this->attributes[$attribute]) {
+//            $this->attributes['status']      = self::UNTESTED;
+//            $this->attributes['connect_log'] = null;
+//        }
+//
         $this->attributes[$attribute] = $value;
     }
 }
