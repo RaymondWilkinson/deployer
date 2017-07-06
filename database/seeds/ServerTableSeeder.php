@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use REBELinBLUE\Deployer\Server;
-use REBELinBLUE\Deployer\ServerTemplate;
 
 class ServerTableSeeder extends Seeder
 {
