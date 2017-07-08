@@ -370,10 +370,10 @@ class Project extends Model implements HasPresenter
      */
     public function servers()
     {
-        // FIXME: Change to use a custom pivot model?
         return $this->belongsToMany(Server::class)
-                    ->withPivot(['user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
                     ->using(ProjectServer::class)
+                    ->withPivot(['user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
+                    ->withTimestamps()
                     ->orderBy('order', 'ASC');
     }
 
