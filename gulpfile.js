@@ -41,7 +41,7 @@ const paths = {
 Elixir(function(mix) {
     mix
     .bower()
-    .lang()
+    //.lang()
     .styles([
         paths.admin_lte   + '/bootstrap/css/bootstrap.css',
         paths.select2     + '/select2.css',

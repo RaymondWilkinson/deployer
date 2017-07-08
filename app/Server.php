@@ -26,24 +26,23 @@ class Server extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'user', 'ip_address', 'port', 'path'];
+    protected $fillable = ['name', 'user', 'ip_address', 'port', 'path', 'type'];
 
     /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot', 'project'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'project'];
 
     /**
-     * The attributes that should be casted to native types.
+     * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
-        'id'                 => 'integer',
-        'project_id'         => 'integer',
-        'port'               => 'integer',
+        'id'   => 'integer',
+        'port' => 'integer',
     ];
 
     /**
@@ -53,18 +52,19 @@ class Server extends Model
      */
     public function project()
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Project::class)
+                    ->using(ProjectServer::class);
     }
 
-    /**
-     * Belongs to relationship.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function template()
-    {
-        return $this->belongsTo(ServerTemplate::class);
-    }
+//    /**
+//     * Belongs to relationship.
+//     *
+//     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+//     */
+//    public function template()
+//    {
+//        return $this->belongsTo(ServerTemplate::class);
+//    }
 
     /**
      * Determines whether the server is currently being testing.

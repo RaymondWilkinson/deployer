@@ -43,19 +43,12 @@ class CreateProjectServersTable extends Migration
             foreach ($servers as $server) {
                 $project = Project::withTrashed()->where('id', $server->project_id)->firstOrFail();
                 $project->servers()->attach($server->id, [
-                    'user'        => $server->user,
-                    'path'        => $server->path,
                     'deploy_code' => $server->deploy_code,
                     'connect_log' => $server->connect_log,
                     'status'      => $server->status,
                     'order'       => $server->order
                 ]);
                 $project->save();
-
-                $server->update([
-                    'path' => null,
-                    'user' => null,
-                ]);
             }
         });
 
