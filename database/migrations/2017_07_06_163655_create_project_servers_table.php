@@ -1,19 +1,16 @@
 <?php
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Server;
-use REBELinBLUE\Deployer\ServerTemplate;
 
 class CreateProjectServersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -46,7 +43,7 @@ class CreateProjectServersTable extends Migration
                     'deploy_code' => $server->deploy_code,
                     'connect_log' => $server->connect_log,
                     'status'      => $server->status,
-                    'order'       => $server->order
+                    'order'       => $server->order,
                 ]);
                 $project->save();
             }
