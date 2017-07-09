@@ -15,6 +15,7 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
@@ -52,25 +53,32 @@ class DeploymentController extends Controller
      * @var Redirector
      */
     private $redirect;
+    /**
+     * @var ServerRepositoryInterface
+     */
+    private $serverRepository;
 
     /**
      * DeploymentController constructor.
      *
-     * @param ProjectRepositoryInterface    $projectRepository
+     * @param ProjectRepositoryInterface $projectRepository
      * @param DeploymentRepositoryInterface $deploymentRepository
-     * @param ViewFactory                   $view
-     * @param Translator                    $translator
-     * @param Redirector                    $redirect
+     * @param ServerRepositoryInterface $serverRepository
+     * @param ViewFactory $view
+     * @param Translator $translator
+     * @param Redirector $redirect
      */
     public function __construct(
         ProjectRepositoryInterface $projectRepository,
         DeploymentRepositoryInterface $deploymentRepository,
+        ServerRepositoryInterface $serverRepository,
         ViewFactory $view,
         Translator $translator,
         Redirector $redirect
     ) {
         $this->projectRepository    = $projectRepository;
         $this->deploymentRepository = $deploymentRepository;
+        $this->serverRepository     = $serverRepository;
         $this->view                 = $view;
         $this->translator           = $translator;
         $this->redirect             = $redirect;
@@ -98,7 +106,7 @@ class DeploymentController extends Controller
             'last_week'        => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'          => $project,
             'servers'          => $project->servers,
-            'server_templates' => Server::all(), // FIXME: This is wrong
+            'server_templates' => $this->serverRepository->getShared(),
             'channels'         => $project->channels,
             'heartbeats'       => $project->heartbeats,
             'sharedFiles'      => $project->sharedFiles,

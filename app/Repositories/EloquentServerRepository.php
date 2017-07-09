@@ -87,4 +87,16 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
             $this->dispatch(new TestServerConnection($server));
         }
     }
+
+    /**
+     * Gets all the shared servers.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getShared()
+    {
+        return $this->model->where('type', Server::TYPE_SHARED)
+                           ->orderBy('name')
+                           ->get();
+    }
 }

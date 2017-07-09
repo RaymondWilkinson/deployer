@@ -56,16 +56,6 @@ class Server extends Model
                     ->using(ProjectServer::class);
     }
 
-//    /**
-//     * Belongs to relationship.
-//     *
-//     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-//     */
-//    public function template()
-//    {
-//        return $this->belongsTo(ServerTemplate::class);
-//    }
-
     /**
      * Determines whether the server is currently being testing.
      *

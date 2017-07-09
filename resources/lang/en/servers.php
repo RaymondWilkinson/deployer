@@ -31,7 +31,7 @@ return [
     'deploy_code'        => 'Code should be deployed to this server',
     'runs_code'          => 'Deploy Code',
     'add_command'        => 'Add the new server to all existing commands',
-    'manage'             => 'Manage Servers',
+    'manage'             => 'Manage Shared Servers',
     'server_details'     => 'Server Details',
     'load_from_template' => 'Shared Servers',
     'load_template'      => 'Use Shared Server',

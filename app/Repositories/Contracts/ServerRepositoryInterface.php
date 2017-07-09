@@ -13,6 +13,11 @@ interface ServerRepositoryInterface
     public function getById($model_id);
 
     /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getShared();
+
+    /**
      * @param array $fields
      *
      * @return \Illuminate\Database\Eloquent\Model
