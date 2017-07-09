@@ -8,6 +8,7 @@ use Illuminate\View\Factory as ViewFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreSharedServerRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
+use REBELinBLUE\Deployer\Server;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -52,12 +53,12 @@ class SharedServerController extends Controller
      */
     public function store(StoreSharedServerRequest $request, ResponseFactory $response)
     {
-        return $response->json($this->repository->create($request->only([
+        return $response->json($this->repository->create(array_merge($request->only([
             'name',
             'user',
             'ip_address',
             'port',
-        ])), Response::HTTP_CREATED);
+        ]), ['type' => Server::TYPE_SHARED])), Response::HTTP_CREATED);
     }
 
     /**
