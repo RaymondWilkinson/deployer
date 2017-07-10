@@ -6,8 +6,9 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\View\Factory as ViewFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
+use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreSharedServerRequest;
-use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedServerRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,17 +17,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SharedServerController extends Controller
 {
-    /**
-     * @var ServerRepositoryInterface
-     */
-    private $repository;
+    use ResourceController;
 
     /**
      * SharedServerController constructor.
      *
-     * @param ServerRepositoryInterface $repository
+     * @param SharedServerRepositoryInterface $repository
      */
-    public function __construct(ServerRepositoryInterface $repository)
+    public function __construct(SharedServerRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -40,7 +38,7 @@ class SharedServerController extends Controller
     public function index(ViewFactory $view, Translator $translator)
     {
         return $view->make('admin.servers.listing', [
-            'servers'   => $this->repository->getShared(),
+            'servers'   => $this->repository->getAll(),
             'title'     => $translator->trans('servers.manage'),
         ]);
     }
@@ -53,12 +51,12 @@ class SharedServerController extends Controller
      */
     public function store(StoreSharedServerRequest $request, ResponseFactory $response)
     {
-        return $response->json($this->repository->create(array_merge($request->only([
+        return $response->json($this->repository->create($request->only([
             'name',
             'user',
             'ip_address',
             'port',
-        ]), ['type' => Server::TYPE_SHARED])), Response::HTTP_CREATED);
+        ])), Response::HTTP_CREATED);
     }
 
     /**

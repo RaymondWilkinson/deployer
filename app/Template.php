@@ -45,7 +45,7 @@ class Template extends Model implements HasPresenter
     ];
 
     /**
-     * Define a accessor for the count of projects.
+     * Define a accessor for the count of commands.
      *
      * @return int
      */

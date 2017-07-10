@@ -15,8 +15,7 @@ use REBELinBLUE\Deployer\Project;
 use REBELinBLUE\Deployer\Repositories\Contracts\DeploymentRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ProjectRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
-use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
-use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedServerRepositoryInterface;
 use REBELinBLUE\Deployer\ServerLog;
 use REBELinBLUE\Deployer\View\Presenters\ServerLogPresenter;
 
@@ -63,7 +62,7 @@ class DeploymentController extends Controller
      *
      * @param ProjectRepositoryInterface    $projectRepository
      * @param DeploymentRepositoryInterface $deploymentRepository
-     * @param ServerRepositoryInterface     $serverRepository
+     * @param SharedServerRepositoryInterface     $serverRepository
      * @param ViewFactory                   $view
      * @param Translator                    $translator
      * @param Redirector                    $redirect
@@ -71,7 +70,7 @@ class DeploymentController extends Controller
     public function __construct(
         ProjectRepositoryInterface $projectRepository,
         DeploymentRepositoryInterface $deploymentRepository,
-        ServerRepositoryInterface $serverRepository,
+        SharedServerRepositoryInterface $serverRepository,
         ViewFactory $view,
         Translator $translator,
         Redirector $redirect
@@ -106,7 +105,7 @@ class DeploymentController extends Controller
             'last_week'        => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'          => $project,
             'servers'          => $project->servers,
-            'server_templates' => $this->serverRepository->getShared(),
+            'server_templates' => $this->serverRepository->getAll(),
             'channels'         => $project->channels,
             'heartbeats'       => $project->heartbeats,
             'sharedFiles'      => $project->sharedFiles,

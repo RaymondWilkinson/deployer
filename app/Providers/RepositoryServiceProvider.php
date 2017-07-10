@@ -17,6 +17,7 @@ use REBELinBLUE\Deployer\Repositories\Contracts\RefRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerLogRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedFileRepositoryInterface;
+use REBELinBLUE\Deployer\Repositories\Contracts\SharedServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\TemplateRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\UserRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\VariableRepositoryInterface;
@@ -34,6 +35,7 @@ use REBELinBLUE\Deployer\Repositories\EloquentRefRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerLogRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentSharedFileRepository;
+use REBELinBLUE\Deployer\Repositories\EloquentSharedServerRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentTemplateRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentUserRepository;
 use REBELinBLUE\Deployer\Repositories\EloquentVariableRepository;
@@ -59,6 +61,7 @@ class RepositoryServiceProvider extends ServiceProvider
         ServerLogRepositoryInterface::class      => EloquentServerLogRepository::class,
         ServerRepositoryInterface::class         => EloquentServerRepository::class,
         SharedFileRepositoryInterface::class     => EloquentSharedFileRepository::class,
+        SharedServerRepositoryInterface::class   => EloquentSharedServerRepository::class,
         TemplateRepositoryInterface::class       => EloquentTemplateRepository::class,
         UserRepositoryInterface::class           => EloquentUserRepository::class,
         VariableRepositoryInterface::class       => EloquentVariableRepository::class,

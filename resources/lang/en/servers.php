@@ -10,6 +10,7 @@ return [
     'name'               => 'Name',
     'type'               => 'Type',
     'connect_as'         => 'Connect As',
+    'unspecified'        => 'Unspecified',
     'ip_address'         => 'Host',
     'log'                => 'View Test Log',
     'log_title'          => 'Test Log',

@@ -2,7 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories\Contracts;
 
-interface ServerRepositoryInterface
+interface SharedServerRepositoryInterface
 {
     /**
      * @param int $model_id
@@ -11,6 +11,11 @@ interface ServerRepositoryInterface
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function getById($model_id);
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll();
 
     /**
      * @param array $fields
@@ -35,9 +40,4 @@ interface ServerRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
-
-    /**
-     * @param int $model_id
-     */
-    public function queueForTesting($model_id);
 }

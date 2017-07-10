@@ -36,6 +36,13 @@ class Server extends Model
     protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'project'];
 
     /**
+     * Additional attributes to include in the JSON representation.
+     *
+     * @var array
+     */
+    protected $appends = ['project_count'];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
@@ -50,11 +57,22 @@ class Server extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function project()
+    public function projects()
     {
         return $this->belongsToMany(Project::class)
                     ->using(ProjectServer::class);
     }
+
+    /**
+     * Define a accessor for the count of projects.
+     *
+     * @return int
+     */
+    public function getProjectCountAttribute()
+    {
+        return $this->projects->count();
+    }
+
 
     /**
      * Determines whether the server is currently being testing.
