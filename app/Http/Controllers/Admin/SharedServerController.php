@@ -34,8 +34,8 @@ class SharedServerController extends Controller
     public function index(ViewFactory $view, Translator $translator)
     {
         return $view->make('admin.servers.listing', [
-            'servers'   => $this->repository->getAll(),
-            'title'     => $translator->trans('servers.manage'),
+            'servers' => $this->repository->getAll(),
+            'title'   => $translator->trans('servers.manage'),
         ]);
     }
 
@@ -47,12 +47,13 @@ class SharedServerController extends Controller
      */
     public function store(StoreSharedServerRequest $request, ResponseFactory $response)
     {
-        return $response->json($this->repository->create($request->only([
+        return $response->json($this->repository->create($request->only(
             'name',
             'user',
             'ip_address',
             'port',
-        ])), Response::HTTP_CREATED);
+            'path'
+        )), Response::HTTP_CREATED);
     }
 
     /**
@@ -63,11 +64,12 @@ class SharedServerController extends Controller
      */
     public function update($server_id, StoreSharedServerRequest $request)
     {
-        return $this->repository->updateById($request->only([
+        return $this->repository->updateById($request->only(
             'name',
             'user',
             'ip_address',
             'port',
-        ]), $server_id);
+            'path'
+        ), $server_id);
     }
 }

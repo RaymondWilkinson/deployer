@@ -44,7 +44,8 @@ class ServerController extends Controller
             'path',
             'project_id',
             'deploy_code',
-            'add_commands'
+            'add_commands',
+            'server_id'
         )), Response::HTTP_CREATED);
     }
 
