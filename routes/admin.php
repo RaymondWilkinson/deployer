@@ -27,7 +27,7 @@ $router->group(['namespace' => 'Admin', 'prefix' => 'admin'], function () use ($
     $router->get('templates/{id}/commands/{step}', 'TemplateController@listing')->name('admin.templates.commands.step');
 
     $router->resource('servers', 'SharedServerController', [
-        'only' => ['index', 'store', 'update', 'destroy', 'show'],
+        'only' => ['index', 'store', 'update'],
         'as' => 'admin',
     ]);
 });

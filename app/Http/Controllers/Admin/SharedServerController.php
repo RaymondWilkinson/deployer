@@ -6,10 +6,8 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\Translation\Translator;
 use Illuminate\View\Factory as ViewFactory;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
-use REBELinBLUE\Deployer\Http\Controllers\Resources\ResourceController;
 use REBELinBLUE\Deployer\Http\Requests\StoreSharedServerRequest;
 use REBELinBLUE\Deployer\Repositories\Contracts\SharedServerRepositoryInterface;
-use REBELinBLUE\Deployer\Server;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -17,8 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SharedServerController extends Controller
 {
-    use ResourceController;
-
     /**
      * SharedServerController constructor.
      *
