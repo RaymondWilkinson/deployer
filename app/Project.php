@@ -372,7 +372,7 @@ class Project extends Model implements HasPresenter
     {
         return $this->belongsToMany(Server::class)
                     ->using(ProjectServer::class)
-                    ->withPivot(['user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
+                    ->withPivot(['id', 'user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
                     ->withTimestamps()
                     ->orderBy('order', 'ASC');
     }

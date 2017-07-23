@@ -4,6 +4,7 @@ namespace REBELinBLUE\Deployer\Repositories;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use REBELinBLUE\Deployer\Server;
 
@@ -79,13 +80,30 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
      */
     public function queueForTesting($server_id)
     {
-        $server = $this->getById($server_id);
+        $server = $this->model->whereHas('projects', function ($q) use ($server_id) {
+            $q->where('project_server.id', $server_id);
+        })->firstOrFail();
 
         if (!$server->isTesting()) {
-            $server->status = Server::TESTING;
-            $server->save();
+            //$server->status = Server::TESTING;
+            //$server->save();
+
+            //$server->projects()->updateExistingPivot($server->id, ['status' => Server::TESTING], true);
 
             $this->dispatch(new TestServerConnection($server));
         }
     }
 }
+
+/*
+ * $authorId = 956;
+$books = Books::whereHas('author', function ($q) use ($authorId) {
+    $q->where('id', $authorId);
+})->get();
+You can even create a scope for Books
+
+scopeByAuthor(Author $author, Builder $query) {
+    return $query->whereHas('author', function ($q) use ($author) {
+        $q->where('id', $author->id);
+    });
+ */
