@@ -63,6 +63,16 @@ class CreateProjectServersTable extends Migration
      */
     public function down()
     {
+        Schema::table('servers', function (Blueprint $table) {
+            $table->string('user')->nullable(false)->change();
+            $table->string('path')->nullable(false)->change();
+            $table->text('connect_log')->nullable();
+            $table->boolean('deploy_code')->default(true);
+            $table->unsignedInteger('order')->default(0);
+            $table->unsignedInteger('status')->default(Server::UNTESTED);
+            $table->unsignedInteger('project_id')->nullable();
+        });
+
         Schema::drop('project_server');
     }
 }
