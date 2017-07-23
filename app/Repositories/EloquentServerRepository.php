@@ -53,7 +53,6 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
             $order = $max->order + 1;
         }
 
-
         $fields['type']  = Server::TYPE_UNIQUE;
         $fields['order'] = $order;
 

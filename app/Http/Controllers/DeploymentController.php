@@ -60,12 +60,12 @@ class DeploymentController extends Controller
     /**
      * DeploymentController constructor.
      *
-     * @param ProjectRepositoryInterface    $projectRepository
-     * @param DeploymentRepositoryInterface $deploymentRepository
-     * @param SharedServerRepositoryInterface     $serverRepository
-     * @param ViewFactory                   $view
-     * @param Translator                    $translator
-     * @param Redirector                    $redirect
+     * @param ProjectRepositoryInterface      $projectRepository
+     * @param DeploymentRepositoryInterface   $deploymentRepository
+     * @param SharedServerRepositoryInterface $serverRepository
+     * @param ViewFactory                     $view
+     * @param Translator                      $translator
+     * @param Redirector                      $redirect
      */
     public function __construct(
         ProjectRepositoryInterface $projectRepository,

@@ -42,7 +42,6 @@ class EloquentSharedServerRepository extends EloquentRepository implements Share
     {
         $fields['type'] = Server::TYPE_SHARED;
 
-
         return $this->model->create($fields);
     }
 }

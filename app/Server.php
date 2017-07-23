@@ -73,7 +73,6 @@ class Server extends Model
         return $this->projects->count();
     }
 
-
     /**
      * Determines whether the server is currently being testing.
      *
