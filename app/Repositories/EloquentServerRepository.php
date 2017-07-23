@@ -2,6 +2,7 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\ProjectServer;
@@ -76,34 +77,18 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
     }
 
     /**
-     * @param int $server_id
+     * @param int $project_server_id
      */
-    public function queueForTesting($server_id)
+    public function queueForTesting($project_server_id)
     {
-        $server = $this->model->whereHas('projects', function ($q) use ($server_id) {
-            $q->where('project_server.id', $server_id);
+        $server = $this->model->whereHas('projects', function (Builder $query) use ($project_server_id) {
+            $query->where('project_server.id', $project_server_id);
         })->firstOrFail();
 
         if (!$server->isTesting()) {
-            //$server->status = Server::TESTING;
-            //$server->save();
-
-            //$server->projects()->updateExistingPivot($server->id, ['status' => Server::TESTING], true);
+            $server->projects()->updateExistingPivot($project_server_id, ['status' => Server::TESTING]);
 
             $this->dispatch(new TestServerConnection($server));
         }
     }
 }
-
-/*
- * $authorId = 956;
-$books = Books::whereHas('author', function ($q) use ($authorId) {
-    $q->where('id', $authorId);
-})->get();
-You can even create a scope for Books
-
-scopeByAuthor(Author $author, Builder $query) {
-    return $query->whereHas('author', function ($q) use ($author) {
-        $q->where('id', $author->id);
-    });
- */

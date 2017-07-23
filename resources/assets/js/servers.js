@@ -59,33 +59,33 @@ var app = app || {};
         modal.find('.modal-title span').text(title);
     });
 
-    // FIXME: This seems very wrong
-    $('#server #server_name').autocomplete({
-        serviceUrl: '/servers/autocomplete',
-        dataType: 'json',
-        noCache: true,
-        preserveInput: true,
-        transformResult: function (response) {
-            return {
-                suggestions: $.map(response.suggestions, function (dataItem) {
-                    var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
-                    return {
-                      value: value,
-                      data: dataItem
-                    };
-                })
-            };
-        },
-        onSelect: function (suggestion) {
-            var server = suggestion.data;
-            $('#server_name').val(server.name);
-            $('#server_address').val(server.ip_address);
-            $('#server_port').val(server.port);
-            $('#server_user').val(server.user);
-            $('#server_path').val(server.path);
-            $('#server_deploy_code').prop('checked', server.deploy_code);
-        }
-    });
+    // // FIXME: This seems very wrong
+    // $('#server #server_name').autocomplete({
+    //     serviceUrl: '/servers/autocomplete',
+    //     dataType: 'json',
+    //     noCache: true,
+    //     preserveInput: true,
+    //     transformResult: function (response) {
+    //         return {
+    //             suggestions: $.map(response.suggestions, function (dataItem) {
+    //                 var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
+    //                 return {
+    //                   value: value,
+    //                   data: dataItem
+    //                 };
+    //             })
+    //         };
+    //     },
+    //     onSelect: function (suggestion) {
+    //         var server = suggestion.data;
+    //         $('#server_name').val(server.name);
+    //         $('#server_address').val(server.ip_address);
+    //         $('#server_port').val(server.port);
+    //         $('#server_user').val(server.user);
+    //         $('#server_path').val(server.path);
+    //         $('#server_deploy_code').prop('checked', server.deploy_code);
+    //     }
+    // });
 
     // FIXME: This seems very wrong
     $('#server button.btn-delete').on('click', function (event) {
@@ -348,21 +348,25 @@ var app = app || {};
             modal.find('.modal-title span').text(title);
         },
         testConnection: function() {
-            if (parseInt(this.model.get('pivot').status) === TESTING) {
+            var pivot = this.model.get('pivot');
+
+            if (pivot.status === TESTING) {
                 return;
             }
 
+            pivot.status = TESTING;
             this.model.set({
-                status: TESTING
+                pivot: pivot
             });
 
             var that = this;
             $.ajax({
                 type: 'POST',
                 url: this.model.urlRoot + '/' + this.model.id + '/test'
-            }).fail(function (response) {
+            }).fail(function () {
+                pivot.status = FAILED;
                 that.model.set({
-                    status: FAILED
+                  pivot: pivot
                 });
             });
         }
