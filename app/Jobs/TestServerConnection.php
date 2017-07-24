@@ -75,7 +75,7 @@ class TestServerConnection extends Job implements ShouldQueue
             $this->server->connect_log = null;
         }
 
-        $this->server->save();
+        //$this->server->save();
 
         $filesystem->delete($key);
     }

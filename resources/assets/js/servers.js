@@ -359,6 +359,8 @@ var app = app || {};
                 pivot: pivot
             });
 
+            this.render();
+
             var that = this;
             $.ajax({
                 type: 'POST',
@@ -368,6 +370,8 @@ var app = app || {};
                 that.model.set({
                   pivot: pivot
                 });
+
+                this.render();
             });
         }
     });
