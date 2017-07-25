@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Server;
 
 class CreateProjectServersTable extends Migration
@@ -22,7 +23,7 @@ class CreateProjectServersTable extends Migration
             $table->string('path')->nullable();
             $table->text('connect_log')->nullable();
             $table->unsignedInteger('order')->default(0);
-            $table->unsignedInteger('status')->default(Server::UNTESTED);
+            $table->unsignedInteger('status')->default(ProjectServer::UNTESTED);
             $table->boolean('deploy_code')->default(true);
             $table->timestamps();
             $table->softDeletes();

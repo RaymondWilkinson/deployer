@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use REBELinBLUE\Deployer\Project;
+use REBELinBLUE\Deployer\ProjectServer;
 use REBELinBLUE\Deployer\Server;
 
 class ServerTableSeeder extends Seeder
@@ -28,12 +29,12 @@ class ServerTableSeeder extends Seeder
 
         $project = Project::where('name', 'Deployer')->firstOrFail();
         foreach (Server::where('type', Server::TYPE_UNIQUE)->get() as $server) {
-            $project->servers()->attach($server->id, [
+            $project->servers()->attach($server->id, array(
                 'deploy_code' => true,
                 'connect_log' => null,
-                'status'      => Server::UNTESTED,
+                'status'      => ProjectServer::UNTESTED,
                 'order'       => 0,
-            ]);
+            ));
         }
 
         $shared = Server::create([
@@ -47,7 +48,7 @@ class ServerTableSeeder extends Seeder
         $project->servers()->attach($shared->id, [
             'deploy_code' => false,
             'connect_log' => null,
-            'status'      => Server::UNTESTED,
+            'status'      => ProjectServer::UNTESTED,
             'order'       => 0,
         ]);
     }
