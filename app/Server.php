@@ -13,11 +13,6 @@ class Server extends Model
 {
     use SoftDeletes, BroadcastChanges;
 
-    const SUCCESSFUL = 0;
-    const UNTESTED   = 1;
-    const FAILED     = 2;
-    const TESTING    = 3;
-
     const TYPE_UNIQUE = 'unique';
     const TYPE_SHARED = 'shared';
 
@@ -60,9 +55,9 @@ class Server extends Model
     public function projects()
     {
         return $this->belongsToMany(Project::class)
-                    ->using(ProjectServer::class)
-                    ->withPivot(['user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
-                    ->withTimestamps();
+                    ->using(ProjectServer::class);
+//                    ->withPivot(['user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
+//                    ->withTimestamps();
     }
 
     /**
@@ -73,17 +68,6 @@ class Server extends Model
     public function getProjectCountAttribute()
     {
         return $this->projects->count();
-    }
-
-    /**
-     * Determines whether the server is currently being testing.
-     *
-     * @return bool
-     */
-    public function isTesting()
-    {
-        return ($this->projects[0]->pivot->status === self::TESTING);
-        //return ($this->status === self::TESTING);
     }
 
     /**

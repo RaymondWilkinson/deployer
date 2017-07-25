@@ -81,9 +81,10 @@ class EloquentServerRepository extends EloquentRepository implements ServerRepos
      */
     public function queueForTesting($project_server_id)
     {
+        /** @var Server $server */
         $server = $this->model->whereHas('projects', function (Builder $query) use ($project_server_id) {
             $query->where('project_server.id', $project_server_id);
-        })->firstOrFail();
+        })->firstOrFail()[0];
 
         if (!$server->isTesting()) {
             $server->projects()->updateExistingPivot($project_server_id, ['status' => Server::TESTING]);
