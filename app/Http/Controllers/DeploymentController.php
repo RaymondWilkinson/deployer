@@ -104,7 +104,7 @@ class DeploymentController extends Controller
             'today'          => $this->deploymentRepository->getTodayCount($project_id),
             'last_week'      => $this->deploymentRepository->getLastWeekCount($project_id),
             'project'        => $project,
-            'servers'        => $project->servers->load('server'),
+            'servers'        => $project->servers, //->load('server'),
             'shared_servers' => $this->serverRepository->getAll(),
             'channels'       => $project->channels,
             'heartbeats'     => $project->heartbeats,

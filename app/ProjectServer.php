@@ -3,9 +3,13 @@
 namespace REBELinBLUE\Deployer;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use REBELinBLUE\Deployer\Traits\BroadcastChanges;
 
 class ProjectServer extends Model
 {
+    use SoftDeletes, BroadcastChanges;
+
     const SUCCESSFUL = 0;
     const UNTESTED   = 1;
     const FAILED     = 2;
@@ -17,6 +21,8 @@ class ProjectServer extends Model
      * @var array
      */
     protected $fillable = ['user', 'path', 'project_id', 'server_id', 'deploy_code'];
+
+    protected $appends = ['server'];
 
     /**
      * The attributes that should be cast to native types.
@@ -39,6 +45,11 @@ class ProjectServer extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function getServerAttribute()
+    {
+        return $this->server()->first();
     }
 
     /**
