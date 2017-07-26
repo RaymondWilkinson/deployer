@@ -27,15 +27,15 @@ class ServerTableSeeder extends Seeder
             'path'        => '/var/www',
         ]);
 
-        $project = Project::where('name', 'Deployer')->firstOrFail();
-        foreach (Server::where('type', Server::TYPE_UNIQUE)->get() as $server) {
-            $project->servers()->attach($server->id, array(
-                'deploy_code' => true,
-                'connect_log' => null,
-                'status'      => ProjectServer::UNTESTED,
-                'order'       => 0,
-            ));
-        }
+//        $project = Project::where('name', 'Deployer')->firstOrFail();
+//        foreach (Server::where('type', Server::TYPE_UNIQUE)->get() as $server) {
+//            $project->servers()->attach($server->id, array(
+//                'deploy_code' => true,
+//                'connect_log' => null,
+//                'status'      => ProjectServer::UNTESTED,
+//                'order'       => 0,
+//            ));
+//        }
 
         $shared = Server::create([
             'name'        => 'Database VM',
@@ -45,11 +45,11 @@ class ServerTableSeeder extends Seeder
             'type'        => Server::TYPE_SHARED,
         ]);
 
-        $project->servers()->attach($shared->id, [
-            'deploy_code' => false,
-            'connect_log' => null,
-            'status'      => ProjectServer::UNTESTED,
-            'order'       => 0,
-        ]);
+//        $project->servers()->attach($shared->id, [
+//            'deploy_code' => false,
+//            'connect_log' => null,
+//            'status'      => ProjectServer::UNTESTED,
+//            'order'       => 0,
+//        ]);
     }
 }

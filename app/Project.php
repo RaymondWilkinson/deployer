@@ -366,14 +366,11 @@ class Project extends Model implements HasPresenter
     /**
      * Has many relationship.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function servers()
     {
-        return $this->belongsToMany(Server::class)
-                    ->using(ProjectServer::class)
-//                    ->withPivot(['id', 'user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
-//                    ->withTimestamps()
+        return $this->hasMany(ProjectServer::class)
                     ->orderBy('order', 'ASC');
     }
 

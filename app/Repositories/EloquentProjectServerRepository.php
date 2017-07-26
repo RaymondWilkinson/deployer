@@ -2,17 +2,21 @@
 
 namespace REBELinBLUE\Deployer\Repositories;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use REBELinBLUE\Deployer\Jobs\TestServerConnection;
 use REBELinBLUE\Deployer\ProjectServer;
-use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
-use REBELinBLUE\Deployer\Server;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectServerRepositoryInterface;
 
 /**
  * The project server repository.
  */
 class EloquentProjectServerRepository extends EloquentRepository implements ProjectServerRepositoryInterface
 {
-
+    /**
+     * EloquentProjectServerRepository constructor.
+     *
+     * @param ProjectServer $model
+     */
+    public function __construct(ProjectServer $model)
+    {
+        $this->model = $model;
+    }
 }

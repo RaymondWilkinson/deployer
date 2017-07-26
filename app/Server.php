@@ -54,10 +54,7 @@ class Server extends Model
      */
     public function projects()
     {
-        return $this->belongsToMany(Project::class)
-                    ->using(ProjectServer::class);
-//                    ->withPivot(['user', 'path', 'status', 'order', 'deploy_code', 'connect_log'])
-//                    ->withTimestamps();
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -67,7 +64,8 @@ class Server extends Model
      */
     public function getProjectCountAttribute()
     {
-        return $this->projects->count();
+        return 0;
+        //return $this->projects->count();
     }
 
     /**

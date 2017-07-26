@@ -15,7 +15,7 @@ class CreateProjectServersTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_server', function (Blueprint $table) {
+        Schema::create('project_servers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('server_id');
@@ -74,6 +74,6 @@ class CreateProjectServersTable extends Migration
             $table->unsignedInteger('project_id')->nullable();
         });
 
-        Schema::drop('project_server');
+        Schema::drop('project_servers');
     }
 }

@@ -294,27 +294,31 @@ var app = app || {};
             data.icon_css    = 'question';
             data.status      = Lang.get('servers.untested');
             data.has_log     = false;
-            data.deploy_code = data.pivot.deploy_code;
-            data.connect_log = data.pivot.connect_log;
-            data.order       = data.pivot.order;
-            data.type       = Lang.get('servers.project');
-            if (this.model.get('type') === 'shared') {
+            data.deploy_code = data.deploy_code;
+            data.name        = data.server.name;
+            data.user        = data.user ? data.user : data.server.user;
+            data.connect_log = data.connect_log;
+            data.order       = data.order;
+            data.ip_address  = data.server.ip_address;
+            data.port        = data.server.port;
+            data.type        = Lang.get('servers.project');
+            if (data.server.type === 'shared') {
                 data.type = Lang.get('servers.shared');
             }
 
-            if (parseInt(this.model.get('pivot').status) === SUCCESSFUL) {
+            if (parseInt(this.model.status) === SUCCESSFUL) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
                 data.status     = Lang.get('servers.successful');
-            } else if (parseInt(this.model.get('pivot').status) === TESTING) {
+            } else if (parseInt(this.model.status) === TESTING) {
                 data.status_css = 'warning';
                 data.icon_css   = 'spinner fa-pulse';
                 data.status     = Lang.get('servers.testing');
-            } else if (parseInt(this.model.get('pivot').status) === FAILED) {
+            } else if (parseInt(this.model.status) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('servers.failed');
-                data.has_log    = data.pivot.connect_log ? true : false;
+                data.has_log    = data.connect_log ? true : false;
             }
 
             this.$el.html(this.template(data));
@@ -348,30 +352,22 @@ var app = app || {};
             modal.find('.modal-title span').text(title);
         },
         testConnection: function() {
-            var pivot = this.model.get('pivot');
-
-            if (pivot.status === TESTING) {
+            if (this.model.get('status') === TESTING) {
                 return;
             }
 
-            pivot.status = TESTING;
             this.model.set({
-                pivot: pivot
+                status: TESTING
             });
-
-            this.render();
 
             var that = this;
             $.ajax({
                 type: 'POST',
                 url: this.model.urlRoot + '/' + this.model.id + '/test'
             }).fail(function () {
-                pivot.status = FAILED;
                 that.model.set({
-                  pivot: pivot
+                    status: FAILED
                 });
-
-                this.render();
             });
         }
     });
