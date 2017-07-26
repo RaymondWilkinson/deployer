@@ -6,6 +6,7 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use REBELinBLUE\Deployer\Http\Controllers\Controller;
 use REBELinBLUE\Deployer\Http\Requests\StoreServerRequest;
+use REBELinBLUE\Deployer\Repositories\Contracts\ProjectServerRepositoryInterface;
 use REBELinBLUE\Deployer\Repositories\Contracts\ServerRepositoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -17,13 +18,21 @@ class ServerController extends Controller
     use ResourceController;
 
     /**
+     * @var ProjectServerRepositoryInterface
+     */
+    private $projectServerRepository;
+
+    /**
      * ServerController constructor.
      *
      * @param ServerRepositoryInterface $repository
      */
-    public function __construct(ServerRepositoryInterface $repository)
-    {
+    public function __construct(
+        ProjectServerRepositoryInterface $projectServerRepository,
+        ServerRepositoryInterface $repository
+    ) {
         $this->repository = $repository;
+        $this->projectServerRepository = $projectServerRepository;
     }
 
     /**
@@ -78,7 +87,7 @@ class ServerController extends Controller
      */
     public function test($server_id)
     {
-        $this->repository->queueForTesting($server_id);
+        $this->projectServerRepository->queueForTesting($server_id);
 
         return [
             'success' => true,

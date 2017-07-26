@@ -59,34 +59,6 @@ var app = app || {};
         modal.find('.modal-title span').text(title);
     });
 
-    // // FIXME: This seems very wrong
-    // $('#server #server_name').autocomplete({
-    //     serviceUrl: '/servers/autocomplete',
-    //     dataType: 'json',
-    //     noCache: true,
-    //     preserveInput: true,
-    //     transformResult: function (response) {
-    //         return {
-    //             suggestions: $.map(response.suggestions, function (dataItem) {
-    //                 var value = dataItem.name + ' (' + dataItem.user + '@' + dataItem.ip_address + ')';
-    //                 return {
-    //                   value: value,
-    //                   data: dataItem
-    //                 };
-    //             })
-    //         };
-    //     },
-    //     onSelect: function (suggestion) {
-    //         var server = suggestion.data;
-    //         $('#server_name').val(server.name);
-    //         $('#server_address').val(server.ip_address);
-    //         $('#server_port').val(server.port);
-    //         $('#server_user').val(server.user);
-    //         $('#server_path').val(server.path);
-    //         $('#server_deploy_code').prop('checked', server.deploy_code);
-    //     }
-    // });
-
     // FIXME: This seems very wrong
     $('#server button.btn-delete').on('click', function (event) {
         var target = $(event.currentTarget);
@@ -199,16 +171,7 @@ var app = app || {};
     });
 
     var Servers = Backbone.Collection.extend({
-        model: app.Server,
-        comparator: function(serverA, serverB) {
-            if (serverA.get('name') > serverB.get('name')) {
-                return -1; // before
-            } else if (serverA.get('name') < serverB.get('name')) {
-                return 1; // after
-            }
-
-            return 0; // equal
-        }
+        model: app.Server
     });
 
     app.Servers = new Servers();
@@ -261,7 +224,6 @@ var app = app || {};
             }
         },
         addOne: function (server) {
-
             var view = new app.ServerView({
                 model: server
             });
@@ -306,15 +268,15 @@ var app = app || {};
                 data.type = Lang.get('servers.shared');
             }
 
-            if (parseInt(this.model.status) === SUCCESSFUL) {
+            if (parseInt(this.model.get('status')) === SUCCESSFUL) {
                 data.status_css = 'success';
                 data.icon_css   = 'check';
                 data.status     = Lang.get('servers.successful');
-            } else if (parseInt(this.model.status) === TESTING) {
+            } else if (parseInt(this.model.get('status')) === TESTING) {
                 data.status_css = 'warning';
                 data.icon_css   = 'spinner fa-pulse';
                 data.status     = Lang.get('servers.testing');
-            } else if (parseInt(this.model.status) === FAILED) {
+            } else if (parseInt(this.model.get('status')) === FAILED) {
                 data.status_css = 'danger';
                 data.icon_css   = 'warning';
                 data.status     = Lang.get('servers.failed');
@@ -328,18 +290,18 @@ var app = app || {};
         editServer: function() {
             // FIXME: Sure this is wrong?
             $('#server_id').val(this.model.id);
-            $('#server_name').val(this.model.get('name'));
-            $('#server_address').val(this.model.get('ip_address'));
-            $('#server_port').val(this.model.get('port'));
+            $('#server_name').val(this.model.get('server').name);
+            $('#server_address').val(this.model.get('server').ip_address);
+            $('#server_port').val(this.model.get('server').port);
 
             if (this.model.get('type') === 'shared') {
-              $('#server_user').val(this.model.get('pivot').user);
-              $('#server_path').val(this.model.get('pivot').path);
+              $('#server_user').val(this.model.user);
+              $('#server_path').val(this.model.path);
 
-              $('server_user').attr('placeholder', this.model.get('user'));
+              $('server_user').attr('placeholder', this.model.get('server').user);
             } else {
-              $('#server_user').val(this.model.get('user'));
-              $('#server_path').val(this.model.get('path'));
+              $('#server_user').val(this.model.get('server').user);
+              $('#server_path').val(this.model.get('server').path);
             }
 
             $('#server_deploy_code').prop('checked', (this.model.get('deploy_code') === true));
@@ -352,7 +314,7 @@ var app = app || {};
             modal.find('.modal-title span').text(title);
         },
         testConnection: function() {
-            if (this.model.get('status') === TESTING) {
+            if (parseInt(this.model.get('status')) === TESTING) {
                 return;
             }
 

@@ -21,33 +21,33 @@
                             </ul>
                         @endif
                         <div class="tab-content">
-                            <div class="tab-pane" id="server_details">
+                            <div class="tab-pane active" id="server_details">
                                 <div class="form-group">
                                     <label for="server_name">{{ trans('servers.name') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-tag"></i></div>
-                                        <input type="text" class="form-control" id="server_name" name="name" placeholder="{{ trans('servers.web') }}"/>
+                                        <input type="text" class="form-control" id="server_name" name="name" placeholder="{{ trans('servers.web') }}" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="server_user">{{ trans('servers.connect_as') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user"></i></div>
-                                        <input type="text" class="form-control" id="server_user" name="user" placeholder="deploy"/>
+                                        <input type="text" class="form-control" id="server_user" name="user" placeholder="deploy" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="server_address">{{ trans('servers.ip_address') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-laptop"></i></div>
-                                        <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1"/>
+                                        <input type="text" class="form-control" id="server_address" name="ip_address" placeholder="192.168.0.1" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="server_port">{{ trans('servers.port') }}</label>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-plug"></i></div>
-                                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22"/>
+                                        <input type="number" class="form-control" id="server_port" name="port" placeholder="22" value="22" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -55,21 +55,21 @@
                                     <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="right" title="{{ trans('servers.example') }}"></i>
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
-                                        <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project"/>
+                                        <input type="text" class="form-control" id="server_path" name="path" placeholder="/var/www/project" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label>{{ trans('servers.options') }}</label>
                                     <div class="checkbox">
                                         <label for="server_deploy_code">
-                                            <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code"/>
+                                            <input type="checkbox" value="1" name="deploy_code" id="server_deploy_code" />
                                             {{ trans('servers.deploy_code') }}
                                         </label>
                                     </div>
                                     @if ($project->commands->count() > 0)
                                         <div class="checkbox" id="add-server-command">
                                             <label for="server_commands">
-                                                <input type="checkbox" value="1" name="commands" id="server_commands" checked/>
+                                                <input type="checkbox" value="1" name="commands" id="server_commands" checked />
                                                 {{ trans('servers.add_command') }}
                                             </label>
                                         </div>

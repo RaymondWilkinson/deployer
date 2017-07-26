@@ -59,6 +59,35 @@ class ProjectServer extends Model
     public function isTesting()
     {
         return ($this->status === self::TESTING);
-        //return ($this->status === self::TESTING);
     }
+
+    /**
+     * The server path without a trailing slash.
+     *
+     * @return string
+     */
+    public function getCleanPathAttribute()
+    {
+        if (empty($this->path)) {
+            return preg_replace('#/$#', '', $this->server->path);
+        }
+
+        // FIXME: Clean this up
+        return preg_replace('#/{2,}#', '/', preg_replace('#/$#', '', $this->server->path . '/' . $this->path));
+    }
+
+    /**
+     * Returns the user to actually connect as.
+     *
+     * @return string
+     */
+    public function getConnectAsAttribute()
+    {
+        if (empty($this->user)) {
+            return $this->server->user;
+        }
+
+        return $this->user;
+    }
+
 }

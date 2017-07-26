@@ -35,9 +35,4 @@ interface ServerRepositoryInterface
      * @return bool
      */
     public function deleteById($model_id);
-
-    /**
-     * @param int $model_id
-     */
-    public function queueForTesting($model_id);
 }
